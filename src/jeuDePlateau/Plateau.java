@@ -26,4 +26,12 @@ public class Plateau {
 	public void setColonnes(int colonnes) {
 		this.colonnes = colonnes;
 	}
+	
+	public Piece piece(int ligne, int colonne) {
+		return pieces[ligne][colonne];
+	}
+	
+	public Piece piece(Position position) {
+		return pieces[position.getLigne()][position.getColonne()];
+	}
 }

@@ -1,12 +1,12 @@
 package application;
 
-import jeuDePlateau.Plateau;
+import echecs.MatchEchecs;
 
 public class Program {
 
 	public static void main(String[] args) {
-		Plateau plateau = new Plateau(8, 8);
-
+		MatchEchecs matchEchecs = new MatchEchecs();
+		IU.imprimerPlateau(matchEchecs.getPieces());
 	}
 
 }
