@@ -34,4 +34,9 @@ public class Plateau {
 	public Piece piece(Position position) {
 		return pieces[position.getLigne()][position.getColonne()];
 	}
+	
+	public void placerPiece(Piece piece, Position position) {
+		this.pieces[position.getLigne()][position.getColonne()] = piece;
+		piece.position = position;
+	}
 }
