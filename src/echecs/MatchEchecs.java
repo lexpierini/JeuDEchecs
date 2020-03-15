@@ -27,8 +27,18 @@ public class MatchEchecs {
 	}
 	
 	private void configurationInitiale() {
-		placerUneNouvellePiece('b', 6, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('e', 8, new Roi(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('c', 1, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('c', 2, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('d', 2, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('e', 2, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('e', 1, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('d', 1, new Roi(plateau, Couleur.BLANC));
+
+		placerUneNouvellePiece('c', 7, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('c', 8, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('d', 7, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('e', 7, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('e', 8, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('d', 8, new Roi(plateau, Couleur.NOIR));
 	}
 }
