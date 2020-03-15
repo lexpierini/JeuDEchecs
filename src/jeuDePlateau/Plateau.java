@@ -47,6 +47,22 @@ public class Plateau {
 		piece.position = position;
 	}
 	
+	public Piece supprimerPiece(Position position) {
+		if (!laPositionExiste(position)) {
+			throw new PlateauException("Position inexistante sur le plateau.");
+		}
+		
+		if (piece(position) == null) {
+			return null;
+		}
+		
+		Piece auxiliaire = piece(position);
+		auxiliaire.position = null;
+		this.pieces[position.getLigne()][position.getColonne()] = null;
+		
+		return auxiliaire;
+	}
+	
 	public boolean laPositionExiste(int ligne, int colonne) {
 		return ligne >= 0 && ligne < this.lignes && colonne >= 0 && colonne < this.colonnes;
 	}

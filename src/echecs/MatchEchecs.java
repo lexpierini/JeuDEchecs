@@ -2,7 +2,9 @@ package echecs;
 
 import echecs.pieces.Roi;
 import echecs.pieces.Tour;
+import jeuDePlateau.Piece;
 import jeuDePlateau.Plateau;
+import jeuDePlateau.Position;
 
 public class MatchEchecs {
 	private Plateau plateau;
@@ -22,6 +24,27 @@ public class MatchEchecs {
 		return matrice;
 	}
 	
+	public PieceEchecs effectuerUnMouvementDEchecs(PositionEchecs positionSource, PositionEchecs positionCible) {
+		Position source = positionSource.versPosition();
+		Position cible = positionCible.versPosition();
+		validerLaPositionSource(source);
+		Piece pieceCapturee = faireUnMouvement(source, cible);
+		return (PieceEchecs)pieceCapturee;
+	}
+	
+	private Piece faireUnMouvement(Position source, Position cible) {
+		Piece piece = plateau.supprimerPiece(source);
+		Piece pieceCapturee = plateau.supprimerPiece(cible);
+		plateau.placerPiece(piece, cible);
+		return pieceCapturee;
+	}
+	
+	private void validerLaPositionSource(Position position) {
+		if (!plateau.ilYAUnPiece(position)) {
+			throw new EchecsException("Il n'y a aucune pièce sur la position de la source.");
+		}
+	}
+		
 	private void placerUneNouvellePiece(char colonne, int ligne, PieceEchecs piece) {
 		plateau.placerPiece(piece, new PositionEchecs(colonne, ligne).versPosition());
 	}

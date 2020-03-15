@@ -1,7 +1,11 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import echecs.Couleur;
 import echecs.PieceEchecs;
+import echecs.PositionEchecs;
 
 public class IU {
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
@@ -23,7 +27,18 @@ public class IU {
 	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
-
+	
+	public static PositionEchecs lireLaPositionDesEchecs(Scanner sc) {
+		try {
+			String s = sc.nextLine();
+			char colonne = s.charAt(0);
+			int ligne = Integer.parseInt(s.substring(1));
+			return new PositionEchecs(colonne, ligne);
+		} catch (RuntimeException erreur) {
+			throw new InputMismatchException("Erreur de lecture de PositionEchecs. Les valeurs valides vont de a1 à h8.");
+		}
+	}
+	
 	public static void imprimerPlateau(PieceEchecs[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
