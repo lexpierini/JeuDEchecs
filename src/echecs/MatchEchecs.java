@@ -3,7 +3,6 @@ package echecs;
 import echecs.pieces.Roi;
 import echecs.pieces.Tour;
 import jeuDePlateau.Plateau;
-import jeuDePlateau.Position;
 
 public class MatchEchecs {
 	private Plateau plateau;
@@ -23,9 +22,13 @@ public class MatchEchecs {
 		return matrice;
 	}
 	
+	private void placerUneNouvellePiece(char colonne, int ligne, PieceEchecs piece) {
+		plateau.placerPiece(piece, new PositionEchecs(colonne, ligne).versPosition());
+	}
+	
 	private void configurationInitiale() {
-		plateau.placerPiece(new Tour(plateau, Couleur.BLANC), new Position(2, 1));
-		plateau.placerPiece(new Roi(plateau, Couleur.NOIR), new Position(0, 4));
-		plateau.placerPiece(new Roi(plateau, Couleur.BLANC), new Position(7, 4));
+		placerUneNouvellePiece('b', 6, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('e', 8, new Roi(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC));
 	}
 }
