@@ -3,7 +3,7 @@ package echecs;
 import jeuDePlateau.Piece;
 import jeuDePlateau.Plateau;
 
-public class PieceEchecs extends Piece{
+public abstract class PieceEchecs extends Piece{
 	private Couleur couleur;
 
 	public PieceEchecs(Plateau plateau, Couleur couleur) {

@@ -4,6 +4,7 @@ import echecs.pieces.Roi;
 import echecs.pieces.Tour;
 import jeuDePlateau.Piece;
 import jeuDePlateau.Plateau;
+import jeuDePlateau.PlateauException;
 import jeuDePlateau.Position;
 
 public class MatchEchecs {
@@ -42,6 +43,8 @@ public class MatchEchecs {
 	private void validerLaPositionSource(Position position) {
 		if (!plateau.ilYAUnPiece(position)) {
 			throw new EchecsException("Il n'y a aucune pièce sur la position de la source.");
+		} if(!plateau.piece(position).ilYAUnPossibleMovement()) {
+			throw new EchecsException("Il n'y a aucun mouvement possible pour la pièce choisie.");
 		}
 	}
 		

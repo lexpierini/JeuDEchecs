@@ -14,4 +14,10 @@ public class Tour extends PieceEchecs {
 	public String toString() {
 		return "T";
 	}
+	
+	@Override
+	public boolean[][] mouvementsPossibles() {
+		boolean[][] matrice = new boolean[getPlateau().getLignes()][getPlateau().getColonnes()];
+		return matrice;
+	}
 }
