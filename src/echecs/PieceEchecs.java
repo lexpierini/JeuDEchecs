@@ -2,6 +2,7 @@ package echecs;
 
 import jeuDePlateau.Piece;
 import jeuDePlateau.Plateau;
+import jeuDePlateau.Position;
 
 public abstract class PieceEchecs extends Piece{
 	private Couleur couleur;
@@ -13,5 +14,10 @@ public abstract class PieceEchecs extends Piece{
 
 	public Couleur getCouleur() {
 		return couleur;
+	}
+	
+	protected boolean ilYAUnePieceAdverse(Position position) {
+		PieceEchecs piece = (PieceEchecs)getPlateau().piece(position);
+		return piece != null && piece.getCouleur() != couleur;
 	}
 }

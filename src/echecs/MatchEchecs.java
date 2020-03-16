@@ -29,6 +29,7 @@ public class MatchEchecs {
 		Position source = positionSource.versPosition();
 		Position cible = positionCible.versPosition();
 		validerLaPositionSource(source);
+		validerLaPositionCible(source, cible);
 		Piece pieceCapturee = faireUnMouvement(source, cible);
 		return (PieceEchecs)pieceCapturee;
 	}
@@ -45,6 +46,12 @@ public class MatchEchecs {
 			throw new EchecsException("Il n'y a aucune pièce sur la position de la source.");
 		} if(!plateau.piece(position).ilYAUnPossibleMovement()) {
 			throw new EchecsException("Il n'y a aucun mouvement possible pour la pièce choisie.");
+		}
+	}
+	
+	public void validerLaPositionCible(Position source, Position cible) {
+		if (!plateau.piece(source).mouvementPossible(cible)) {
+			throw new EchecsException("La pièce choisie ne peut pas se déplacer vers la position choisi.");
 		}
 	}
 		

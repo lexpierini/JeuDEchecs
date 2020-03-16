@@ -27,6 +27,11 @@ public class Position {
 	public void setColonne(int colonne) {
 		this.colonne = colonne;
 	}
+	
+	public void setValeurs(int ligne, int colonne) {
+		this.ligne = ligne;
+		this.colonne = colonne;
+	}
 
 	@Override
 	public String toString() {
