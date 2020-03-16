@@ -1,7 +1,9 @@
 package application;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import echecs.EchecsException;
 import echecs.MatchEchecs;
 import echecs.PieceEchecs;
 import echecs.PositionEchecs;
@@ -14,16 +16,26 @@ public class Program {
 		MatchEchecs matchEchecs = new MatchEchecs();
 		
 		while (true) {
-			IU.imprimerPlateau(matchEchecs.getPieces());
-			System.out.println();
-			System.out.print("Source: ");
-			PositionEchecs source = IU.lireLaPositionDesEchecs(sc);
-			
-			System.out.println();
-			System.out.print("Cible: ");
-			PositionEchecs cible = IU.lireLaPositionDesEchecs(sc);
-			
-			PieceEchecs pieceCapturee = matchEchecs.effectuerUnMouvementDEchecs(source, cible);
+			try {
+				IU.clearScreen();
+				IU.imprimerPlateau(matchEchecs.getPieces());
+				System.out.println();
+				System.out.print("Source: ");
+				PositionEchecs source = IU.lireLaPositionDesEchecs(sc);
+				
+				System.out.println();
+				System.out.print("Cible: ");
+				PositionEchecs cible = IU.lireLaPositionDesEchecs(sc);
+				
+				PieceEchecs pieceCapturee = matchEchecs.effectuerUnMouvementDEchecs(source, cible);
+				
+			} catch(EchecsException erreur) {
+				System.out.println(erreur.getMessage());
+				sc.nextLine();
+			} catch(InputMismatchException erreur) {
+				System.out.println(erreur.getMessage());
+				sc.nextLine();
+			}
 		}
 	}
 
