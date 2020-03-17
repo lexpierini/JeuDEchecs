@@ -45,7 +45,7 @@ public class Pion extends PieceEchecs {
 			}
 			
 			p.setValeurs(position.getLigne() + 2, position.getColonne());
-			Position p2 = new Position(position.getLigne() - 1, position.getColonne());
+			Position p2 = new Position(position.getLigne() + 1, position.getColonne());
 			if (getPlateau().laPositionExiste(p) && !getPlateau().ilYAUnPiece(p) && getPlateau().laPositionExiste(p2) && !getPlateau().ilYAUnPiece(p2) && getCompteurDeMopuvement() == 0) {
 				matrice[p.getLigne()][p.getColonne()] = true;
 			}
