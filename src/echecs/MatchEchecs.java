@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import echecs.pieces.Cavalier;
 import echecs.pieces.Fous;
 import echecs.pieces.Pion;
 import echecs.pieces.Roi;
@@ -190,9 +191,11 @@ public class MatchEchecs {
 	
 	private void configurationInitiale() {
 		placerUneNouvellePiece('a', 1, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('b', 1, new Cavalier(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('c', 1, new Fous(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('f', 1, new Fous(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('g', 1, new Cavalier(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('h', 1, new Tour(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('a', 2, new Pion(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('b', 2, new Pion(plateau, Couleur.BLANC));
@@ -204,9 +207,11 @@ public class MatchEchecs {
 		placerUneNouvellePiece('h', 2, new Pion(plateau, Couleur.BLANC));
 		
 		placerUneNouvellePiece('a', 8, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('b', 8, new Cavalier(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('c', 8, new Fous(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('e', 8, new Roi(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('f', 8, new Fous(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('g', 8, new Cavalier(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('h', 8, new Tour(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('a', 7, new Pion(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('b', 7, new Pion(plateau, Couleur.NOIR));
