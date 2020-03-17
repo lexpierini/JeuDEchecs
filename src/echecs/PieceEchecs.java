@@ -16,6 +16,10 @@ public abstract class PieceEchecs extends Piece{
 		return couleur;
 	}
 	
+	public PositionEchecs getPositionEchecs() {
+		return PositionEchecs.desPosition(position);
+	}
+	
 	protected boolean ilYAUnePieceAdverse(Position position) {
 		PieceEchecs piece = (PieceEchecs)getPlateau().piece(position);
 		return piece != null && piece.getCouleur() != couleur;

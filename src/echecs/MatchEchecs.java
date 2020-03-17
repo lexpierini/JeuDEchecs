@@ -2,6 +2,7 @@ package echecs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import echecs.pieces.Roi;
 import echecs.pieces.Tour;
@@ -13,6 +14,7 @@ public class MatchEchecs {
 	private int tour;
 	private Couleur joueurActuel;
 	private Plateau plateau;
+	private boolean echec;
 	
 	private List<Piece> piecesSurLePlateau = new ArrayList<>();
 	private List<Piece> piecesCapturees = new ArrayList<>();
@@ -21,6 +23,7 @@ public class MatchEchecs {
 		plateau = new Plateau(8, 8);
 		tour = 1;
 		joueurActuel = Couleur.BLANC;
+		echec = false;
 		configurationInitiale();
 	}
 	
@@ -30,6 +33,10 @@ public class MatchEchecs {
 	
 	public Couleur getJoueurActuel() {
 		return joueurActuel;
+	}
+	
+	public boolean getEchec() {
+		return echec;
 	}
 	
 	public PieceEchecs[][] getPieces() {
@@ -54,6 +61,14 @@ public class MatchEchecs {
 		validerLaPositionSource(source);
 		validerLaPositionCible(source, cible);
 		Piece pieceCapturee = faireUnMouvement(source, cible);
+		
+		if (testerEchec(joueurActuel)) {
+			annulerLeDeplacement(source, cible, pieceCapturee);
+			throw new  EchecsException("Vous ne pouvez pas vous mettre en échec.");
+		}
+		
+		echec = (testerEchec(adversaire(joueurActuel))) ? true : false;
+		
 		prochainTour();
 		return (PieceEchecs)pieceCapturee;
 	}
@@ -69,6 +84,17 @@ public class MatchEchecs {
 		}
 		
 		return pieceCapturee;
+	}
+	
+	private void annulerLeDeplacement(Position source, Position cible, Piece pieceCapturee) {
+		Piece p = plateau.supprimerPiece(cible);
+		plateau.placerPiece(p, source);
+		
+		if (pieceCapturee != null) {
+			plateau.placerPiece(pieceCapturee, cible);
+			piecesCapturees.remove(pieceCapturee);
+			piecesSurLePlateau.add(pieceCapturee);
+		}
 	}
 	
 	private void validerLaPositionSource(Position position) {
@@ -90,6 +116,32 @@ public class MatchEchecs {
 	private void prochainTour() {
 		tour++;
 		joueurActuel = (joueurActuel == Couleur.BLANC) ? Couleur.NOIR : Couleur.BLANC;
+	}
+	
+	private Couleur adversaire(Couleur couleur) {
+		return (couleur == Couleur.BLANC) ? Couleur.NOIR : Couleur.BLANC;
+	}
+	
+	private PieceEchecs roi(Couleur couleur) {
+		List<Piece> list = piecesSurLePlateau.stream().filter(x -> ((PieceEchecs)x).getCouleur() == couleur).collect(Collectors.toList());
+		for (Piece p : list) {
+			if (p instanceof Roi) {
+				return (PieceEchecs)p;
+			}
+		}
+		throw new IllegalStateException("Il n'y a pas de roi " + couleur + " sur le plateau.");
+	}
+	
+	private boolean testerEchec(Couleur couleur) {
+		Position positionDuRoi = roi(couleur).getPositionEchecs().versPosition();
+		List<Piece> piecesDeLAdversaire = piecesSurLePlateau.stream().filter(x -> ((PieceEchecs)x).getCouleur() == adversaire(couleur)).collect(Collectors.toList());
+		for (Piece p : piecesDeLAdversaire) {
+			boolean[][] matrice = p.mouvementsPossibles();
+			if (matrice[positionDuRoi.getLigne()][positionDuRoi.getColonne()]) {
+				return true;
+			}
+		}
+		return false;
 	}
 		
 	private void placerUneNouvellePiece(char colonne, int ligne, PieceEchecs piece) {

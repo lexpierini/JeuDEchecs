@@ -22,7 +22,7 @@ public class Tour extends PieceEchecs {
 		
 		Position p = new Position(0, 0);
 		
-		// au dessus
+		// dessus
 		p.setValeurs(position.getLigne() - 1, position.getColonne());
 		while (getPlateau().laPositionExiste(p) && !getPlateau().ilYAUnPiece(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
@@ -33,7 +33,7 @@ public class Tour extends PieceEchecs {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// au dessous
+		// dessous
 		p.setValeurs(position.getLigne() + 1, position.getColonne());
 		while (getPlateau().laPositionExiste(p) && !getPlateau().ilYAUnPiece(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;

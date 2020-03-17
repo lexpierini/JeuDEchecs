@@ -56,6 +56,9 @@ public class IU {
 		System.out.println();
 		System.out.println("Tour: " + matchEchecs.getTour());
 		System.out.println("Joueur en attente: " + matchEchecs.getJoueurActuel());
+		if (matchEchecs.getEchec()) {
+			System.out.println("ÉCHEC!");
+		}
 	}
 	
 	public static void imprimerPlateau(PieceEchecs[][] pieces) {

@@ -28,7 +28,7 @@ public class PositionEchecs {
 	}
 	
 	protected static PositionEchecs desPosition(Position position) {
-		return new PositionEchecs((char)('a' - position.getColonne()), 8 - position.getLigne());
+		return new PositionEchecs((char)('a' + position.getColonne()), 8 - position.getLigne());
 	}
 	
 	@Override
