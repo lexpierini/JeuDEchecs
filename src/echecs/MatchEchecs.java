@@ -1,5 +1,6 @@
 package echecs;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class MatchEchecs {
 	private boolean echec;
 	private boolean  echecEtMat;
 	private PieceEchecs enPassantVulnerable;
+	private PieceEchecs promotion;
 	
 	private List<Piece> piecesSurLePlateau = new ArrayList<>();
 	private List<Piece> piecesCapturees = new ArrayList<>();
@@ -53,6 +55,10 @@ public class MatchEchecs {
 		return enPassantVulnerable;
 	}
 	
+	public PieceEchecs getPromotion() {
+		return promotion;
+	}
+	
 	public PieceEchecs[][] getPieces() {
 		PieceEchecs[][] matrice = new PieceEchecs[plateau.getLignes()][plateau.getColonnes()];
 		for (int i = 0; i < plateau.getLignes(); i++) {
@@ -83,6 +89,15 @@ public class MatchEchecs {
 		
 		PieceEchecs pieceDeplacee = (PieceEchecs)plateau.piece(cible);
 		
+		// mouvement spécial: Promotion
+		promotion = null;
+		if (pieceDeplacee instanceof Pion) {
+			if ((pieceDeplacee.getCouleur() == Couleur.BLANC && cible.getLigne() == 0) || (pieceDeplacee.getCouleur() == Couleur.NOIR && cible.getLigne() == 7)) {
+				promotion = (PieceEchecs)plateau.piece(cible);
+				promotion = remplacerLaPiecePromue("D");
+			}
+		}
+		
 		echec = (testerEchec(adversaire(joueurActuel))) ? true : false;
 		
 		if (testerEchecEtMat(adversaire(joueurActuel))) {
@@ -99,6 +114,32 @@ public class MatchEchecs {
 		}
 		
 		return (PieceEchecs)pieceCapturee;
+	}
+	
+	public PieceEchecs remplacerLaPiecePromue(String type) {
+		if (promotion == null) {
+			throw new IllegalStateException("Il n'y a aucune pièce à promouvoir.");
+		}
+		if (!type.equals("F") && !type.equals("C") && !type.equals("T") && !type.equals("D")) {
+			throw new InvalidParameterException("Type non valide pour la promotion.");
+		}
+		
+		Position pos = promotion.getPositionEchecs().versPosition();
+		Piece p = plateau.supprimerPiece(pos);
+		piecesSurLePlateau.remove(p);
+		
+		PieceEchecs nouvellePiece = nouvellePiece(type, promotion.getCouleur());
+		plateau.placerPiece(nouvellePiece, pos);
+		piecesSurLePlateau.add(nouvellePiece);
+		
+		return nouvellePiece;
+	}
+	
+	private PieceEchecs nouvellePiece(String type, Couleur couleur) {
+		if (type.equals("F")) return new Fous(plateau, couleur);
+		if (type.equals("C")) return new Cavalier(plateau, couleur);
+		if (type.equals("D")) return new Dame(plateau, couleur);
+		return new Tour(plateau, couleur);
 	}
 	
 	private Piece faireUnMouvement(Position source, Position cible) {
@@ -127,7 +168,6 @@ public class MatchEchecs {
 			plateau.placerPiece(tour, cibleTour);
 			tour.augmenterCompteurDeMouvements();
 		}
-		
 		// mouvement spécial: La prise en passant
 		if (piece instanceof Pion) {
 			if (source.getColonne() != cible.getColonne() && pieceCapturee == null) {

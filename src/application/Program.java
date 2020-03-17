@@ -39,6 +39,12 @@ public class Program {
 					capturee.add(pieceCapturee);
 				}
 				
+				if (matchEchecs.getPromotion() != null) {
+					System.out.print("Choisissez la pièce pour la promotion (F/C/T/D): ");
+					String type = sc.nextLine();
+					matchEchecs.remplacerLaPiecePromue(type);
+				}
+				
 			} catch(EchecsException erreur) {
 				System.out.println(erreur.getMessage());
 				sc.nextLine();
