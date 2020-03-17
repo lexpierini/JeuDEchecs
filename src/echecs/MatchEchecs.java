@@ -1,5 +1,8 @@
 package echecs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import echecs.pieces.Roi;
 import echecs.pieces.Tour;
 import jeuDePlateau.Piece;
@@ -10,6 +13,9 @@ public class MatchEchecs {
 	private int tour;
 	private Couleur joueurActuel;
 	private Plateau plateau;
+	
+	private List<Piece> piecesSurLePlateau = new ArrayList<>();
+	private List<Piece> piecesCapturees = new ArrayList<>();
 	
 	public MatchEchecs() {
 		plateau = new Plateau(8, 8);
@@ -56,6 +62,12 @@ public class MatchEchecs {
 		Piece piece = plateau.supprimerPiece(source);
 		Piece pieceCapturee = plateau.supprimerPiece(cible);
 		plateau.placerPiece(piece, cible);
+		
+		if (pieceCapturee !=null) {
+			piecesSurLePlateau.remove(pieceCapturee);
+			piecesCapturees.add(pieceCapturee);
+		}
+		
 		return pieceCapturee;
 	}
 	
@@ -82,6 +94,7 @@ public class MatchEchecs {
 		
 	private void placerUneNouvellePiece(char colonne, int ligne, PieceEchecs piece) {
 		plateau.placerPiece(piece, new PositionEchecs(colonne, ligne).versPosition());
+		piecesSurLePlateau.add(piece);
 	}
 	
 	private void configurationInitiale() {

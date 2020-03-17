@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import echecs.Couleur;
 import echecs.MatchEchecs;
@@ -46,8 +49,10 @@ public class IU {
 		}
 	}
 	
-	public static void imprimerLeMatch(MatchEchecs matchEchecs) {
+	public static void imprimerLeMatch(MatchEchecs matchEchecs, List<PieceEchecs> capturee) {
 		imprimerPlateau(matchEchecs.getPieces());
+		System.out.println();
+		imprimerLesPiecesCapturees(capturee);
 		System.out.println();
 		System.out.println("Tour: " + matchEchecs.getTour());
 		System.out.println("Joueur en attente: " + matchEchecs.getJoueurActuel());
@@ -92,5 +97,19 @@ public class IU {
             }
         }
         System.out.print(" ");
+	}
+	
+	private static void imprimerLesPiecesCapturees(List<PieceEchecs> capturee) {
+		List<PieceEchecs> blanc = capturee.stream().filter(x -> x.getCouleur() == Couleur.BLANC).collect(Collectors.toList());
+		List<PieceEchecs> noir = capturee.stream().filter(x -> x.getCouleur() == Couleur.NOIR).collect(Collectors.toList());
+		System.out.println("Pièces capturées: ");
+		System.out.print("Blanc: ");
+		System.out.print(ANSI_WHITE);
+		System.out.println(Arrays.toString(blanc.toArray()));
+		System.out.print(ANSI_RESET);
+		System.out.print("Noir: ");
+		System.out.print(ANSI_YELLOW);
+		System.out.println(Arrays.toString(noir.toArray()));
+		System.out.print(ANSI_RESET);
 	}
 }
