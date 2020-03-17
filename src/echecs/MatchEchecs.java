@@ -97,6 +97,22 @@ public class MatchEchecs {
 			piecesSurLePlateau.remove(pieceCapturee);
 			piecesCapturees.add(pieceCapturee);
 		}
+		// mouvement spécial roque Roi vers Tour à droite (Kingside)
+		if (piece instanceof Roi && cible.getColonne() == source.getColonne() + 2) {
+			Position sourceTour = new Position(source.getLigne(), source.getColonne() + 3);
+			Position cibleTour = new Position(source.getLigne(), source.getColonne() + 1);
+			PieceEchecs tour = (PieceEchecs)plateau.supprimerPiece(sourceTour);
+			plateau.placerPiece(tour, cibleTour);
+			tour.augmenterCompteurDeMouvements();
+		}
+		// mouvement spécial roque Roi vers Tour à gauche (Queenside)
+		if (piece instanceof Roi && cible.getColonne() == source.getColonne() - 2) {
+			Position sourceTour = new Position(source.getLigne(), source.getColonne() - 4);
+			Position cibleTour = new Position(source.getLigne(), source.getColonne() - 1);
+			PieceEchecs tour = (PieceEchecs)plateau.supprimerPiece(sourceTour);
+			plateau.placerPiece(tour, cibleTour);
+			tour.augmenterCompteurDeMouvements();
+		}
 		
 		return pieceCapturee;
 	}
@@ -110,6 +126,22 @@ public class MatchEchecs {
 			plateau.placerPiece(pieceCapturee, cible);
 			piecesCapturees.remove(pieceCapturee);
 			piecesSurLePlateau.add(pieceCapturee);
+		}
+		// mouvement spécial roque Roi vers Tour à droite (Kingside)
+		if (piece instanceof Roi && cible.getColonne() == source.getColonne() + 2) {
+			Position sourceTour = new Position(source.getLigne(), source.getColonne() + 3);
+			Position cibleTour = new Position(source.getLigne(), source.getColonne() + 1);
+			PieceEchecs tour = (PieceEchecs)plateau.supprimerPiece(cibleTour);
+			plateau.placerPiece(tour, sourceTour);
+			tour.reduireCompteurDeMouvements();
+		}
+		// mouvement spécial roque Roi vers Tour à gauche (Queenside)
+		if (piece instanceof Roi && cible.getColonne() == source.getColonne() - 2) {
+			Position sourceTour = new Position(source.getLigne(), source.getColonne() - 4);
+			Position cibleTour = new Position(source.getLigne(), source.getColonne() - 1);
+			PieceEchecs tour = (PieceEchecs)plateau.supprimerPiece(cibleTour);
+			plateau.placerPiece(tour, sourceTour);
+			tour.reduireCompteurDeMouvements();
 		}
 	}
 	
@@ -195,7 +227,7 @@ public class MatchEchecs {
 		placerUneNouvellePiece('b', 1, new Cavalier(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('c', 1, new Fous(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('d', 1, new Dame(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC, this));
 		placerUneNouvellePiece('f', 1, new Fous(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('g', 1, new Cavalier(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('h', 1, new Tour(plateau, Couleur.BLANC));
@@ -212,7 +244,7 @@ public class MatchEchecs {
 		placerUneNouvellePiece('b', 8, new Cavalier(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('c', 8, new Fous(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('d', 8, new Dame(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('e', 8, new Roi(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('e', 8, new Roi(plateau, Couleur.NOIR, this));
 		placerUneNouvellePiece('f', 8, new Fous(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('g', 8, new Cavalier(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('h', 8, new Tour(plateau, Couleur.NOIR));
