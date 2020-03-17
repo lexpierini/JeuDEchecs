@@ -23,6 +23,9 @@ public class Program {
 				System.out.print("Source: ");
 				PositionEchecs source = IU.lireLaPositionDesEchecs(sc);
 				
+				boolean[][] mouvementsPossibles = matchEchecs.mouvementsPossibles(source);
+				IU.clearScreen();
+				IU.imprimerPlateau(matchEchecs.getPieces(), mouvementsPossibles);
 				System.out.println();
 				System.out.print("Cible: ");
 				PositionEchecs cible = IU.lireLaPositionDesEchecs(sc);

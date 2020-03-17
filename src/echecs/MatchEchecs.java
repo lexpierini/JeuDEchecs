@@ -25,6 +25,12 @@ public class MatchEchecs {
 		return matrice;
 	}
 	
+	public boolean[][] mouvementsPossibles(PositionEchecs positionSource){
+		Position position = positionSource.versPosition();
+		validerLaPositionSource(position);
+		return plateau.piece(position).mouvementsPossibles();
+	}
+	
 	public PieceEchecs effectuerUnMouvementDEchecs(PositionEchecs positionSource, PositionEchecs positionCible) {
 		Position source = positionSource.versPosition();
 		Position cible = positionCible.versPosition();
