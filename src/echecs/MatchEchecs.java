@@ -15,6 +15,7 @@ public class MatchEchecs {
 	private Couleur joueurActuel;
 	private Plateau plateau;
 	private boolean echec;
+	private boolean  echecEtMat; 
 	
 	private List<Piece> piecesSurLePlateau = new ArrayList<>();
 	private List<Piece> piecesCapturees = new ArrayList<>();
@@ -37,6 +38,10 @@ public class MatchEchecs {
 	
 	public boolean getEchec() {
 		return echec;
+	}
+	
+	public boolean getEchecEtMat() {
+		return echecEtMat;
 	}
 	
 	public PieceEchecs[][] getPieces() {
@@ -69,7 +74,12 @@ public class MatchEchecs {
 		
 		echec = (testerEchec(adversaire(joueurActuel))) ? true : false;
 		
-		prochainTour();
+		if (testerEchecEtMat(adversaire(joueurActuel))) {
+			echecEtMat = true;
+		} else {
+			prochainTour();			
+		}
+		
 		return (PieceEchecs)pieceCapturee;
 	}
 	
@@ -143,6 +153,31 @@ public class MatchEchecs {
 		}
 		return false;
 	}
+	
+	private boolean testerEchecEtMat(Couleur couleur) {
+		if (!testerEchec(couleur)) {
+			return false;
+		}
+		List<Piece> list = piecesSurLePlateau.stream().filter(x -> ((PieceEchecs)x).getCouleur() == couleur).collect(Collectors.toList());
+		for (Piece p : list) {
+			boolean[][] matrice = p.mouvementsPossibles();
+			for (int i = 0; i < plateau.getLignes(); i++) {
+				for (int j = 0; j < plateau.getColonnes(); j++) {
+					if (matrice[i][j]) {
+						Position source = ((PieceEchecs)p).getPositionEchecs().versPosition();
+						Position cible = new Position(i, j);
+						Piece pieceCapturee = faireUnMouvement(source, cible);
+						boolean testerEchec = testerEchec(couleur);
+						annulerLeDeplacement(source, cible, pieceCapturee);
+						if (!testerEchec) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
 		
 	private void placerUneNouvellePiece(char colonne, int ligne, PieceEchecs piece) {
 		plateau.placerPiece(piece, new PositionEchecs(colonne, ligne).versPosition());
@@ -150,18 +185,11 @@ public class MatchEchecs {
 	}
 	
 	private void configurationInitiale() {
-		placerUneNouvellePiece('c', 1, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('c', 2, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('d', 2, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('e', 2, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('e', 1, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('d', 1, new Roi(plateau, Couleur.BLANC));
-
-		placerUneNouvellePiece('c', 7, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('c', 8, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('d', 7, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('e', 7, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('e', 8, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('d', 8, new Roi(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('h', 7, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('d', 1, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC));
+		
+		placerUneNouvellePiece('b', 8, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('a', 8, new Roi(plateau, Couleur.NOIR));
 	}
 }

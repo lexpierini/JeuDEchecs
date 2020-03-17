@@ -18,7 +18,7 @@ public class Program {
 		MatchEchecs matchEchecs = new MatchEchecs();
 		List<PieceEchecs> capturee = new ArrayList<>();
 		
-		while (true) {
+		while (!matchEchecs.getEchecEtMat()) {
 			try {
 				IU.clearScreen();
 				IU.imprimerLeMatch(matchEchecs, capturee);
@@ -47,6 +47,7 @@ public class Program {
 				sc.nextLine();
 			}
 		}
+		IU.clearScreen();
+		IU.imprimerLeMatch(matchEchecs, capturee);
 	}
-
 }

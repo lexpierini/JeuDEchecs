@@ -55,10 +55,17 @@ public class IU {
 		imprimerLesPiecesCapturees(capturee);
 		System.out.println();
 		System.out.println("Tour: " + matchEchecs.getTour());
-		System.out.println("Joueur en attente: " + matchEchecs.getJoueurActuel());
-		if (matchEchecs.getEchec()) {
-			System.out.println("ÉCHEC!");
+		
+		if (!matchEchecs.getEchecEtMat()) {
+			System.out.println("Joueur en attente: " + matchEchecs.getJoueurActuel());
+			if (matchEchecs.getEchec()) {
+				System.out.println("ÉCHEC!");
+			}			
+		} else {
+			System.out.println("ÉCHEC ET MAT!");
+			System.out.println("Gagnant: " + matchEchecs.getJoueurActuel());
 		}
+		
 	}
 	
 	public static void imprimerPlateau(PieceEchecs[][] pieces) {
