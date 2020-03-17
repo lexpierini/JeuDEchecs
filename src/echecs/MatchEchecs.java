@@ -19,7 +19,8 @@ public class MatchEchecs {
 	private Couleur joueurActuel;
 	private Plateau plateau;
 	private boolean echec;
-	private boolean  echecEtMat; 
+	private boolean  echecEtMat;
+	private PieceEchecs enPassantVulnerable;
 	
 	private List<Piece> piecesSurLePlateau = new ArrayList<>();
 	private List<Piece> piecesCapturees = new ArrayList<>();
@@ -46,6 +47,10 @@ public class MatchEchecs {
 	
 	public boolean getEchecEtMat() {
 		return echecEtMat;
+	}
+	
+	public PieceEchecs getEnPassantVulnerable() {
+		return enPassantVulnerable;
 	}
 	
 	public PieceEchecs[][] getPieces() {
@@ -76,12 +81,21 @@ public class MatchEchecs {
 			throw new  EchecsException("Vous ne pouvez pas vous mettre en échec.");
 		}
 		
+		PieceEchecs pieceDeplacee = (PieceEchecs)plateau.piece(cible);
+		
 		echec = (testerEchec(adversaire(joueurActuel))) ? true : false;
 		
 		if (testerEchecEtMat(adversaire(joueurActuel))) {
 			echecEtMat = true;
 		} else {
 			prochainTour();			
+		}
+		
+		// mouvement spécial: La prise en passant
+		if (pieceDeplacee instanceof Pion && (cible.getLigne() == source.getLigne() - 2 || cible.getLigne() == source.getLigne() + 2)) {
+			enPassantVulnerable = pieceDeplacee;
+		} else {
+			enPassantVulnerable = null;
 		}
 		
 		return (PieceEchecs)pieceCapturee;
@@ -114,6 +128,21 @@ public class MatchEchecs {
 			tour.augmenterCompteurDeMouvements();
 		}
 		
+		// mouvement spécial: La prise en passant
+		if (piece instanceof Pion) {
+			if (source.getColonne() != cible.getColonne() && pieceCapturee == null) {
+				Position pionPosition;
+				if (piece.getCouleur() == Couleur.BLANC) {
+					pionPosition = new Position(cible.getLigne() + 1, cible.getColonne());
+				} else {
+					pionPosition = new Position(cible.getLigne() - 1, cible.getColonne());
+				}
+				pieceCapturee = plateau.supprimerPiece(pionPosition);
+				piecesCapturees.add(pieceCapturee);
+				piecesSurLePlateau.remove(pieceCapturee);
+			}
+		}
+		
 		return pieceCapturee;
 	}
 	
@@ -142,6 +171,20 @@ public class MatchEchecs {
 			PieceEchecs tour = (PieceEchecs)plateau.supprimerPiece(cibleTour);
 			plateau.placerPiece(tour, sourceTour);
 			tour.reduireCompteurDeMouvements();
+		}
+		
+		// mouvement spécial: La prise en passant
+		if (piece instanceof Pion) {
+			if (source.getColonne() != cible.getColonne() && pieceCapturee == enPassantVulnerable) {
+				PieceEchecs pion = (PieceEchecs)plateau.supprimerPiece(cible);
+				Position pionPosition;
+				if (piece.getCouleur() == Couleur.BLANC) {
+					pionPosition = new Position(3, cible.getColonne());
+				} else {
+					pionPosition = new Position(4, cible.getColonne());
+				}
+				plateau.placerPiece(pion, pionPosition);
+			}
 		}
 	}
 	
@@ -231,14 +274,14 @@ public class MatchEchecs {
 		placerUneNouvellePiece('f', 1, new Fous(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('g', 1, new Cavalier(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('h', 1, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('a', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('b', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('c', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('d', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('e', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('f', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('g', 2, new Pion(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('h', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('a', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('b', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('c', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('d', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('e', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('f', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('g', 2, new Pion(plateau, Couleur.BLANC, this));
+		placerUneNouvellePiece('h', 2, new Pion(plateau, Couleur.BLANC, this));
 		
 		placerUneNouvellePiece('a', 8, new Tour(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('b', 8, new Cavalier(plateau, Couleur.NOIR));
@@ -248,13 +291,13 @@ public class MatchEchecs {
 		placerUneNouvellePiece('f', 8, new Fous(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('g', 8, new Cavalier(plateau, Couleur.NOIR));
 		placerUneNouvellePiece('h', 8, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('a', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('b', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('c', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('d', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('e', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('f', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('g', 7, new Pion(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('h', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('a', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('b', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('c', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('d', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('e', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('f', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('g', 7, new Pion(plateau, Couleur.NOIR, this));
+		placerUneNouvellePiece('h', 7, new Pion(plateau, Couleur.NOIR, this));
 	}
 }
