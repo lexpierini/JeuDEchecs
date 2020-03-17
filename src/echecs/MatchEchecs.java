@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import echecs.pieces.Pion;
 import echecs.pieces.Roi;
 import echecs.pieces.Tour;
 import jeuDePlateau.Piece;
@@ -187,11 +188,28 @@ public class MatchEchecs {
 	}
 	
 	private void configurationInitiale() {
-		placerUneNouvellePiece('h', 7, new Tour(plateau, Couleur.BLANC));
-		placerUneNouvellePiece('d', 1, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('a', 1, new Tour(plateau, Couleur.BLANC));
 		placerUneNouvellePiece('e', 1, new Roi(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('h', 1, new Tour(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('a', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('b', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('c', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('d', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('e', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('f', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('g', 2, new Pion(plateau, Couleur.BLANC));
+		placerUneNouvellePiece('h', 2, new Pion(plateau, Couleur.BLANC));
 		
-		placerUneNouvellePiece('b', 8, new Tour(plateau, Couleur.NOIR));
-		placerUneNouvellePiece('a', 8, new Roi(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('a', 8, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('e', 8, new Roi(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('h', 8, new Tour(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('a', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('b', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('c', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('d', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('e', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('f', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('g', 7, new Pion(plateau, Couleur.NOIR));
+		placerUneNouvellePiece('h', 7, new Pion(plateau, Couleur.NOIR));
 	}
 }

@@ -10,11 +10,6 @@ public class Roi extends PieceEchecs {
 		super(plateau, couleur);
 	}
 	
-	@Override
-	public String toString() {
-		return "R";
-	}
-	
 	private boolean peutSeDeplacer(Position position) {
 		PieceEchecs p = (PieceEchecs)getPlateau().piece(position);
 		return p == null || p.getCouleur() != getCouleur();
@@ -75,5 +70,10 @@ public class Roi extends PieceEchecs {
 		}
 
 		return matrice;
+	}
+	
+	@Override
+	public String toString() {
+		return "R";
 	}
 }
