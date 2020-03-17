@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import echecs.Couleur;
+import echecs.MatchEchecs;
 import echecs.PieceEchecs;
 import echecs.PositionEchecs;
 
@@ -43,6 +44,13 @@ public class IU {
 		} catch (RuntimeException erreur) {
 			throw new InputMismatchException("Erreur de lecture de PositionEchecs. Les valeurs valides vont de a1 à h8.");
 		}
+	}
+	
+	public static void imprimerLeMatch(MatchEchecs matchEchecs) {
+		imprimerPlateau(matchEchecs.getPieces());
+		System.out.println();
+		System.out.println("Tour: " + matchEchecs.getTour());
+		System.out.println("Joueur en attente: " + matchEchecs.getJoueurActuel());
 	}
 	
 	public static void imprimerPlateau(PieceEchecs[][] pieces) {

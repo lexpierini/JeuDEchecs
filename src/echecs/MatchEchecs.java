@@ -4,15 +4,26 @@ import echecs.pieces.Roi;
 import echecs.pieces.Tour;
 import jeuDePlateau.Piece;
 import jeuDePlateau.Plateau;
-import jeuDePlateau.PlateauException;
 import jeuDePlateau.Position;
 
 public class MatchEchecs {
+	private int tour;
+	private Couleur joueurActuel;
 	private Plateau plateau;
 	
 	public MatchEchecs() {
 		plateau = new Plateau(8, 8);
+		tour = 1;
+		joueurActuel = Couleur.BLANC;
 		configurationInitiale();
+	}
+	
+	public int getTour() {
+		return tour;
+	}
+	
+	public Couleur getJoueurActuel() {
+		return joueurActuel;
 	}
 	
 	public PieceEchecs[][] getPieces() {
@@ -37,6 +48,7 @@ public class MatchEchecs {
 		validerLaPositionSource(source);
 		validerLaPositionCible(source, cible);
 		Piece pieceCapturee = faireUnMouvement(source, cible);
+		prochainTour();
 		return (PieceEchecs)pieceCapturee;
 	}
 	
@@ -50,6 +62,8 @@ public class MatchEchecs {
 	private void validerLaPositionSource(Position position) {
 		if (!plateau.ilYAUnPiece(position)) {
 			throw new EchecsException("Il n'y a aucune pièce sur la position de la source.");
+		} if (joueurActuel != ((PieceEchecs)plateau.piece(position)).getCouleur()) {
+			throw new EchecsException("La pièce choisie n'est pas la vôtre.");
 		} if(!plateau.piece(position).ilYAUnPossibleMovement()) {
 			throw new EchecsException("Il n'y a aucun mouvement possible pour la pièce choisie.");
 		}
@@ -59,6 +73,11 @@ public class MatchEchecs {
 		if (!plateau.piece(source).mouvementPossible(cible)) {
 			throw new EchecsException("La pièce choisie ne peut pas se déplacer vers la position choisi.");
 		}
+	}
+	
+	private void prochainTour() {
+		tour++;
+		joueurActuel = (joueurActuel == Couleur.BLANC) ? Couleur.NOIR : Couleur.BLANC;
 	}
 		
 	private void placerUneNouvellePiece(char colonne, int ligne, PieceEchecs piece) {
