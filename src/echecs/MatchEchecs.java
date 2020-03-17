@@ -84,7 +84,8 @@ public class MatchEchecs {
 	}
 	
 	private Piece faireUnMouvement(Position source, Position cible) {
-		Piece piece = plateau.supprimerPiece(source);
+		PieceEchecs piece = (PieceEchecs)plateau.supprimerPiece(source);
+		piece.augmenterCompteurDeMouvements();
 		Piece pieceCapturee = plateau.supprimerPiece(cible);
 		plateau.placerPiece(piece, cible);
 		
@@ -97,8 +98,9 @@ public class MatchEchecs {
 	}
 	
 	private void annulerLeDeplacement(Position source, Position cible, Piece pieceCapturee) {
-		Piece p = plateau.supprimerPiece(cible);
-		plateau.placerPiece(p, source);
+		PieceEchecs piece = (PieceEchecs)plateau.supprimerPiece(cible);
+		piece.reduireCompteurDeMouvements();
+		plateau.placerPiece(piece, source);
 		
 		if (pieceCapturee != null) {
 			plateau.placerPiece(pieceCapturee, cible);

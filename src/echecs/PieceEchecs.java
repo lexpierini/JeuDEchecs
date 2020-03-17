@@ -6,6 +6,7 @@ import jeuDePlateau.Position;
 
 public abstract class PieceEchecs extends Piece{
 	private Couleur couleur;
+	private int compteurDeMouvement;
 
 	public PieceEchecs(Plateau plateau, Couleur couleur) {
 		super(plateau);
@@ -15,6 +16,19 @@ public abstract class PieceEchecs extends Piece{
 	public Couleur getCouleur() {
 		return couleur;
 	}
+	
+	public int getCompteurDeMopuvement() {
+		return compteurDeMouvement;
+	}
+	
+	public void augmenterCompteurDeMouvements() {
+		compteurDeMouvement++;
+	}
+	
+	public void reduireCompteurDeMouvements() {
+		compteurDeMouvement--;
+	}
+	
 	
 	public PositionEchecs getPositionEchecs() {
 		return PositionEchecs.desPosition(position);
