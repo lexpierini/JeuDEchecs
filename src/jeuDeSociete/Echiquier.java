@@ -1,13 +1,13 @@
-package jeuDePlateau;
+package jeuDeSociete;
 
-public class Plateau {
+public class Echiquier {
 	private int lignes;
 	private int colonnes;
 	private Piece[][] pieces;
 	
-	public Plateau(int lignes, int colonnes) {
+	public Echiquier(int lignes, int colonnes) {
 		if(lignes < 1 || colonnes < 1) {
-			throw new PlateauException("Erreur lors de la création du plateau: il doit y avoir au moins 1 ligne et 1 colonne.");
+			throw new EchiquierException("Erreur lors de la création d'échiquier: il doit y avoir au moins 1 ligne et 1 colonne.");
 		}
 		
 		this.lignes = lignes;
@@ -25,31 +25,31 @@ public class Plateau {
 
 	public Piece piece(int ligne, int colonne) {
 		if (!laPositionExiste(ligne, colonne)) {
-			throw new PlateauException("Position inexistante sur le plateau.");
+			throw new EchiquierException("Position inexistante sur l'échiquier.");
 		}
 		
 		return pieces[ligne][colonne];
 	}
 	
 	public Piece piece(Position position) {
-		if (!laPositionExiste(position)) {
-			throw new PlateauException("Position inexistante sur le plateau.");
+		if (!positionExiste(position)) {
+			throw new EchiquierException("Position inexistante sur l'échiquier.");
 		}
 		
 		return pieces[position.getLigne()][position.getColonne()];
 	}
 	
 	public void placerPiece(Piece piece, Position position) {
-		if (ilYAUnPiece(position)) {
-			throw new PlateauException("Il y a déjà une pièce sur la position " + position);
+		if (aPiece(position)) {
+			throw new EchiquierException("Il y a déjà une pièce sur la position " + position);
 		}
 		this.pieces[position.getLigne()][position.getColonne()] = piece;
 		piece.position = position;
 	}
 	
 	public Piece supprimerPiece(Position position) {
-		if (!laPositionExiste(position)) {
-			throw new PlateauException("Position inexistante sur le plateau.");
+		if (!positionExiste(position)) {
+			throw new EchiquierException("Position inexistante sur l'échiquier.");
 		}
 		
 		if (piece(position) == null) {
@@ -67,13 +67,13 @@ public class Plateau {
 		return ligne >= 0 && ligne < this.lignes && colonne >= 0 && colonne < this.colonnes;
 	}
 	
-	public boolean laPositionExiste(Position position) {
+	public boolean positionExiste(Position position) {
 		return laPositionExiste(position.getLigne(), position.getColonne());
 	}
 	
-	public boolean ilYAUnPiece(Position position) {
-		if (!laPositionExiste(position)) {
-			throw new PlateauException("Position inexistante sur le plateau.");
+	public boolean aPiece(Position position) {
+		if (!positionExiste(position)) {
+			throw new EchiquierException("Position inexistante sur l'échiquier.");
 		}
 		
 		return piece(position) != null;

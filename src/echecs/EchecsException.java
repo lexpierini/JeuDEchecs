@@ -1,8 +1,8 @@
 package echecs;
 
-import jeuDePlateau.PlateauException;
+import jeuDeSociete.EchiquierException;
 
-public class EchecsException extends PlateauException {
+public class EchecsException extends EchiquierException {
 	private static final long serialVersionUID = 1L;
 	
 	public EchecsException(String msg) {

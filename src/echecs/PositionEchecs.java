@@ -1,6 +1,6 @@
 package echecs;
 
-import jeuDePlateau.Position;
+import jeuDeSociete.Position;
 
 public class PositionEchecs {
 	private char colonne;
@@ -8,7 +8,7 @@ public class PositionEchecs {
 	
 	public PositionEchecs(char colonne, int ligne) {
 		if (colonne < 'a' || colonne > 'h' || ligne < 1 || ligne > 8) {
-			throw new EchecsException("Erreur lors de l'instanciation de ChessPosition. Les valeurs valides vont de a1 à h8.");
+			throw new EchecsException("Erreur lors de l'instanciation de PositionEchecs. Les valeurs valides vont de a1 à h8.");
 		}
 		
 		this.colonne = colonne;

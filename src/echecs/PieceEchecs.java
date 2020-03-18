@@ -1,15 +1,15 @@
 package echecs;
 
-import jeuDePlateau.Piece;
-import jeuDePlateau.Plateau;
-import jeuDePlateau.Position;
+import jeuDeSociete.Piece;
+import jeuDeSociete.Echiquier;
+import jeuDeSociete.Position;
 
 public abstract class PieceEchecs extends Piece{
 	private Couleur couleur;
-	private int compteurDeMouvement;
+	private int compteurMouvement;
 
-	public PieceEchecs(Plateau plateau, Couleur couleur) {
-		super(plateau);
+	public PieceEchecs(Echiquier echiquier, Couleur couleur) {
+		super(echiquier);
 		this.couleur = couleur;
 	}
 
@@ -17,25 +17,24 @@ public abstract class PieceEchecs extends Piece{
 		return couleur;
 	}
 	
-	public int getCompteurDeMopuvement() {
-		return compteurDeMouvement;
+	public int getCompteurMouvement() {
+		return compteurMouvement;
 	}
 	
-	public void augmenterCompteurDeMouvements() {
-		compteurDeMouvement++;
+	public void augmenterCompteurMouvements() {
+		compteurMouvement++;
 	}
 	
-	public void reduireCompteurDeMouvements() {
-		compteurDeMouvement--;
+	public void reduireCompteurMouvements() {
+		compteurMouvement--;
 	}
-	
 	
 	public PositionEchecs getPositionEchecs() {
 		return PositionEchecs.desPosition(position);
 	}
 	
-	protected boolean ilYAUnePieceAdverse(Position position) {
-		PieceEchecs piece = (PieceEchecs)getPlateau().piece(position);
+	protected boolean aPieceAdverse(Position position) {
+		PieceEchecs piece = (PieceEchecs)getEchiquier().piece(position);
 		return piece != null && piece.getCouleur() != couleur;
 	}
 }

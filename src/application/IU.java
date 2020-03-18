@@ -49,10 +49,10 @@ public class IU {
 		}
 	}
 	
-	public static void imprimerLeMatch(MatchEchecs matchEchecs, List<PieceEchecs> capturee) {
-		imprimerPlateau(matchEchecs.getPieces());
+	public static void imprimerLeMatch(MatchEchecs matchEchecs, List<PieceEchecs> piecesCapturees) {
+		imprimerEchiquier(matchEchecs.getPieces());
 		System.out.println();
-		imprimerLesPiecesCapturees(capturee);
+		imprimerLesPiecesCapturees(piecesCapturees);
 		System.out.println();
 		System.out.println("Tour: " + matchEchecs.getTour());
 		
@@ -68,7 +68,7 @@ public class IU {
 		
 	}
 	
-	public static void imprimerPlateau(PieceEchecs[][] pieces) {
+	public static void imprimerEchiquier(PieceEchecs[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pieces.length; j++) {
@@ -79,11 +79,11 @@ public class IU {
 		System.out.println("  a b c d e f g h");
 	}
 	
-	public static void imprimerPlateau(PieceEchecs[][] pieces, boolean[][] mouvementsPossibles) {
+	public static void imprimerEchiquier(PieceEchecs[][] pieces, boolean[][] deplacementsPossibles) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pieces.length; j++) {
-				imprimerPiece(pieces[i][j], mouvementsPossibles[i][j]);
+				imprimerPiece(pieces[i][j], deplacementsPossibles[i][j]);
 			}
 			System.out.println();
 		}
@@ -109,9 +109,9 @@ public class IU {
         System.out.print(" ");
 	}
 	
-	private static void imprimerLesPiecesCapturees(List<PieceEchecs> capturee) {
-		List<PieceEchecs> blanc = capturee.stream().filter(x -> x.getCouleur() == Couleur.BLANC).collect(Collectors.toList());
-		List<PieceEchecs> noir = capturee.stream().filter(x -> x.getCouleur() == Couleur.NOIR).collect(Collectors.toList());
+	private static void imprimerLesPiecesCapturees(List<PieceEchecs> piecesCapturees) {
+		List<PieceEchecs> blanc = piecesCapturees.stream().filter(x -> x.getCouleur() == Couleur.BLANC).collect(Collectors.toList());
+		List<PieceEchecs> noir = piecesCapturees.stream().filter(x -> x.getCouleur() == Couleur.NOIR).collect(Collectors.toList());
 		System.out.println("Pièces capturées: ");
 		System.out.print("Blanc: ");
 		System.out.print(ANSI_WHITE);

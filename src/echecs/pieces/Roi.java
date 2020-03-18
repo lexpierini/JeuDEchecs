@@ -3,99 +3,99 @@ package echecs.pieces;
 import echecs.Couleur;
 import echecs.MatchEchecs;
 import echecs.PieceEchecs;
-import jeuDePlateau.Plateau;
-import jeuDePlateau.Position;
+import jeuDeSociete.Echiquier;
+import jeuDeSociete.Position;
 
 public class Roi extends PieceEchecs {
 	private MatchEchecs matchEchecs;
 	
-	public Roi(Plateau plateau, Couleur couleur, MatchEchecs matchEchecs) {
-		super(plateau, couleur);
+	public Roi(Echiquier echiquier, Couleur couleur, MatchEchecs matchEchecs) {
+		super(echiquier, couleur);
 		this.matchEchecs = matchEchecs;
 	}
 	
 	private boolean peutSeDeplacer(Position position) {
-		PieceEchecs p = (PieceEchecs)getPlateau().piece(position);
+		PieceEchecs p = (PieceEchecs)getEchiquier().piece(position);
 		return p == null || p.getCouleur() != getCouleur();
 	}
 	
 	private boolean testerTourRoque(Position position) {
-		PieceEchecs p = (PieceEchecs)getPlateau().piece(position);
-		return p != null && p instanceof Tour && p.getCouleur() == getCouleur() && p.getCompteurDeMopuvement() == 0;
+		PieceEchecs p = (PieceEchecs)getEchiquier().piece(position);
+		return p != null && p instanceof Tour && p.getCouleur() == getCouleur() && p.getCompteurMouvement() == 0;
 	}
 
 	@Override
-	public boolean[][] mouvementsPossibles() {
-		boolean[][] matrice = new boolean[getPlateau().getLignes()][getPlateau().getColonnes()];
+	public boolean[][] deplacementsPossibles() {
+		boolean[][] matrice = new boolean[getEchiquier().getLignes()][getEchiquier().getColonnes()];
 		
 		Position p = new Position(0, 0);
 		
-		// dessus
+		// Dessus
 		p.setValeurs(position.getLigne() - 1 , position.getColonne());
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// dessous
+		// Dessous
 		p.setValeurs(position.getLigne() + 1 , position.getColonne());
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// gauche
+		// Gauche
 		p.setValeurs(position.getLigne(), position.getColonne() - 1);
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// droite
+		// Droite
 		p.setValeurs(position.getLigne(), position.getColonne() + 1);
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// nord-ouest
+		// Nord-ouest
 		p.setValeurs(position.getLigne() - 1, position.getColonne() - 1);
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// nord-est
+		// Nord-est
 		p.setValeurs(position.getLigne() - 1, position.getColonne() + 1);
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// sud-ouest
+		// Sud-ouest
 		p.setValeurs(position.getLigne() + 1, position.getColonne() - 1);
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// sud-est
+		// Sud-est
 		p.setValeurs(position.getLigne() + 1, position.getColonne() + 1);
-		if (getPlateau().laPositionExiste(p) && peutSeDeplacer(p)) {
+		if (getEchiquier().positionExiste(p) && peutSeDeplacer(p)) {
 			matrice[p.getLigne()][p.getColonne()] = true;
 		}
 		
-		// mouvement spécial roque
-		if (getCompteurDeMopuvement() == 0 && !matchEchecs.getEchec()) {
-			// mouvement spécial roque Roi vers Tour à droite (Kingside)
+		// Mouvement spécial: Roque
+		if (getCompteurMouvement() == 0 && !matchEchecs.getEchec()) {
+			// Mouvement spécial: Roque, Roi vers Tour à droite (Kingside)
 			Position positionTour1 = new Position(position.getLigne(), position.getColonne() + 3);
 			if (testerTourRoque(positionTour1)) {
 				Position p1 = new Position(position.getLigne(), position.getColonne() + 1);
 				Position p2 = new Position(position.getLigne(), position.getColonne() + 2);
-				if (getPlateau().piece(p1) == null && getPlateau().piece(p2) == null) {
+				if (getEchiquier().piece(p1) == null && getEchiquier().piece(p2) == null) {
 					matrice[position.getLigne()][position.getColonne() + 2] = true;
 				}
 			}
-			// mouvement spécial roque Roi vers Tour à gauche (Queenside)
+			// Mouvement spécial: Roque, Roi vers Tour à gauche (Queenside)
 			Position positionTour2 = new Position(position.getLigne(), position.getColonne() - 4);
 			if (testerTourRoque(positionTour2)) {
 				Position p1 = new Position(position.getLigne(), position.getColonne() - 1);
 				Position p2 = new Position(position.getLigne(), position.getColonne() - 2);
 				Position p3 = new Position(position.getLigne(), position.getColonne() - 3);
-				if (getPlateau().piece(p1) == null && getPlateau().piece(p2) == null && getPlateau().piece(p3) == null) {
+				if (getEchiquier().piece(p1) == null && getEchiquier().piece(p2) == null && getEchiquier().piece(p3) == null) {
 					matrice[position.getLigne()][position.getColonne() - 2] = true;
 				}
 			}

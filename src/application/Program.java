@@ -16,33 +16,33 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		
 		MatchEchecs matchEchecs = new MatchEchecs();
-		List<PieceEchecs> capturee = new ArrayList<>();
+		List<PieceEchecs> piecesCapturees = new ArrayList<>();
 		
 		while (!matchEchecs.getEchecEtMat()) {
 			try {
 				IU.clearScreen();
-				IU.imprimerLeMatch(matchEchecs, capturee);
+				IU.imprimerLeMatch(matchEchecs, piecesCapturees);
 				System.out.println();
-				System.out.print("Source: ");
-				PositionEchecs source = IU.lireLaPositionDesEchecs(sc);
+				System.out.print("Origine: ");
+				PositionEchecs origine = IU.lireLaPositionDesEchecs(sc);
 				
-				boolean[][] mouvementsPossibles = matchEchecs.mouvementsPossibles(source);
+				boolean[][] deplacementsPossibles = matchEchecs.deplacementsPossibles(origine);
 				IU.clearScreen();
-				IU.imprimerPlateau(matchEchecs.getPieces(), mouvementsPossibles);
+				IU.imprimerEchiquier(matchEchecs.getPieces(), deplacementsPossibles);
 				System.out.println();
-				System.out.print("Cible: ");
-				PositionEchecs cible = IU.lireLaPositionDesEchecs(sc);
+				System.out.print("Destination: ");
+				PositionEchecs destination = IU.lireLaPositionDesEchecs(sc);
 				
-				PieceEchecs pieceCapturee = matchEchecs.effectuerUnMouvementDEchecs(source, cible);
+				PieceEchecs pieceCapturee = matchEchecs.effectuerDeplacementEchec(origine, destination);
 				
 				if (pieceCapturee != null) {
-					capturee.add(pieceCapturee);
+					piecesCapturees.add(pieceCapturee);
 				}
 				
-				if (matchEchecs.getPromotion() != null) {
+				if (matchEchecs.getPromouvoirPion() != null) {
 					System.out.print("Choisissez la pièce pour la promotion (F/C/T/D): ");
 					String type = sc.nextLine();
-					matchEchecs.remplacerLaPiecePromue(type);
+					matchEchecs.remplacerPiecePromue(type);
 				}
 				
 			} catch(EchecsException erreur) {
@@ -54,6 +54,6 @@ public class Program {
 			}
 		}
 		IU.clearScreen();
-		IU.imprimerLeMatch(matchEchecs, capturee);
+		IU.imprimerLeMatch(matchEchecs, piecesCapturees);
 	}
 }

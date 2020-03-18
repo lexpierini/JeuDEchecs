@@ -1,4 +1,4 @@
-package jeuDePlateau;
+package jeuDeSociete;
 
 public class Position {
 	private int ligne;
@@ -37,6 +37,4 @@ public class Position {
 	public String toString() {
 		return ligne + ", " + colonne;
 	}
-	
-	
 }
